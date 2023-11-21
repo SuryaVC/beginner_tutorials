@@ -16,8 +16,8 @@
  * @file subscriber_member_function.cpp
  * @author (Edited by) Suryavardhan Reddy Chappidi (chappidi@umd.edu)
  * @brief Subscriber to subscribe to messages using ROS 2.
- * @details This program defines a MinimalSubscriber class for subscribing to 
- * custom messages in ROS 2. It listens to the messages published on a specific 
+ * @details This program defines a MinimalSubscriber class for subscribing to
+ * custom messages in ROS 2. It listens to the messages published on a specific
  * topic and logs them.
  * @version 0.1
  * @date 2023-11-07
@@ -38,9 +38,10 @@ class MinimalSubscriber : public rclcpp::Node {
  public:
   /**
    * @brief Construct a new Minimal Subscriber object.
-   * 
-   * @details Initializes the subscriber to the 'topic'. The subscriber listens for 
-   * messages of type std_msgs::msg::String and processes them using a callback function.
+   *
+   * @details Initializes the subscriber to the 'topic'. The subscriber listens
+   * for messages of type std_msgs::msg::String and processes them using a
+   * callback function.
    */
   MinimalSubscriber() : Node("minimal_subscriber") {
     try {
@@ -56,7 +57,7 @@ class MinimalSubscriber : public rclcpp::Node {
  private:
   /**
    * @brief Callback function for the subscriber.
-   * 
+   *
    * @param msg The message received from the publisher.
    * @details This function logs the received message.
    */
@@ -75,4 +76,3 @@ int main(int argc, char* argv[]) {
   RCLCPP_INFO(node->get_logger(), "Shutting down subscriber node");
   return 0;
 }
-
