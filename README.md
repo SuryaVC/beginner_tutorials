@@ -62,12 +62,13 @@ cppcheck --enable=all --std=c++11 --check-config --suppress=missingIncludeSystem
 ## Results:
 Cpplint and Cppcheck output are in results directory.
 
-Logging screenshot
+### Logging screenshot
 <p align="center">
 <img width="80%" alt="logs" src="cpp_pubsub/results/logging.png">
 </p>
+All logs werent been able to show in the screenshot. All 5 logging levels were used in the publisher file for your reference.
 
-Screenshot of modifying message using service
+### Screenshot of modifying message using service
 <p align="center">
 <img width="80%" alt="service" src="cpp_pubsub/results/message_update.png">
 </p>
