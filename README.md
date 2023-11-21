@@ -63,9 +63,14 @@ cppcheck --enable=all --std=c++11 --check-config --suppress=missingIncludeSystem
 Cpplint and Cppcheck output are in results directory.
 
 Logging screenshot
-
+<p align="center">
+<img width="80%" alt="logs" src="results/logging.png">
+</p>
 
 Screenshot of modifying message using service
+<p align="center">
+<img width="80%" alt="service" src="results/message_update.png">
+</p>
 
 
 ## Dependencies:
