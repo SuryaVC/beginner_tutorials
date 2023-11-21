@@ -64,12 +64,12 @@ Cpplint and Cppcheck output are in results directory.
 
 Logging screenshot
 <p align="center">
-<img width="80%" alt="logs" src="results/logging.png">
+<img width="80%" alt="logs" src="cpp_pubsub/results/logging.png">
 </p>
 
 Screenshot of modifying message using service
 <p align="center">
-<img width="80%" alt="service" src="results/message_update.png">
+<img width="80%" alt="service" src="cpp_pubsub/results/message_update.png">
 </p>
 
 
