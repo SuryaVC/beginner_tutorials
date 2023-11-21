@@ -37,6 +37,16 @@ ros2 run cpp_pubsub listener
 
 To quit the talker and listener, press `Ctrl+C` in their respective terminals.
 
+# Using launch file to run both talker and listener together with custom frequency
+```bash
+ros2 launch cpp_pubsub service_launch.yaml frequency:=1
+```
+# Open new terminal to call the service to modify message
+```bash
+ros2 run cpp_pubsub server_client surya
+```
+
+
 ## Checks
 ### cpplint:
 
@@ -51,6 +61,11 @@ cppcheck --enable=all --std=c++11 --check-config --suppress=missingIncludeSystem
 
 ## Results:
 Cpplint and Cppcheck output are in results directory.
+
+Logging screenshot
+
+
+Screenshot of modifying message using service
 
 
 ## Dependencies:
