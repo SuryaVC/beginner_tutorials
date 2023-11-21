@@ -19,7 +19,7 @@
 #include <memory>
 #include <string>
 
-#include "cpp_pubsub/srv/UpdateMessage.srv"
+#include "cpp_pubsub/srv/update_message.hpp"
 #include "rclcpp/rclcpp.hpp"
 
 using namespace std::chrono_literals;
@@ -39,7 +39,7 @@ class ServerClient : public rclcpp::Node {
    * @details Initializes the client and connects to the 'service_node' service.
    */
   ServerClient() : Node("server_client") {
-    client = this->create_client<beginner_tutorials::srv::UpdateMessage>(
+    client = this->create_client<cpp_pubsub::srv::UpdateMessage>(
         "service_node");
   }
 
@@ -51,12 +51,12 @@ class ServerClient : public rclcpp::Node {
    */
   auto getRequest(char **argv) {
     auto request = std::make_shared<
-        beginner_tutorials::srv::UpdateMessage::Request>();
+        cpp_pubsub::srv::UpdateMessage::Request>();
     request->input = argv[1];
     return request;
   }
 
-  rclcpp::Client<beginner_tutorials::srv::UpdateMessage>::SharedPtr client;
+  rclcpp::Client<cpp_pubsub::srv::UpdateMessage>::SharedPtr client;
 };
 
 int main(int argc, char **argv) {
