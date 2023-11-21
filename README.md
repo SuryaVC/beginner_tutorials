@@ -37,11 +37,11 @@ ros2 run cpp_pubsub listener
 
 To quit the talker and listener, press `Ctrl+C` in their respective terminals.
 
-# Using launch file to run both talker and listener together with custom frequency
+Using launch file to run both talker and listener together with custom frequency
 ```bash
 ros2 launch cpp_pubsub service_launch.yaml frequency:=1
 ```
-# Open new terminal to call the service to modify message
+Open new terminal to call the service to modify message
 ```bash
 ros2 run cpp_pubsub server_client surya
 ```
@@ -62,10 +62,16 @@ cppcheck --enable=all --std=c++11 --check-config --suppress=missingIncludeSystem
 ## Results:
 Cpplint and Cppcheck output are in results directory.
 
-Logging screenshot
+### Logging screenshot
+<p align="center">
+<img width="80%" alt="logs" src="cpp_pubsub/results/logging.png">
+</p>
+All logs were not been able to show in the screenshot. All 5 logging levels were used in the publisher file for your reference.
 
-
-Screenshot of modifying message using service
+### Screenshot of modifying message using service
+<p align="center">
+<img width="80%" alt="service" src="cpp_pubsub/results/message_update.png">
+</p>
 
 
 ## Dependencies:
