@@ -34,6 +34,15 @@ install(TARGETS
   listener
   server_client
   DESTINATION lib/${PROJECT_NAME})
+
+install(DIRECTORY 
+  launch
+  DESTINATION share/${PROJECT_NAME})
+
+rosidl_target_interfaces(talker
+  ${PROJECT_NAME} "rosidl_typesupport_cpp")
+rosidl_target_interfaces(server_client
+  ${PROJECT_NAME} "rosidl_typesupport_cpp")
   
 ament_export_dependencies(rosidl_default_runtime)
 ament_package()
