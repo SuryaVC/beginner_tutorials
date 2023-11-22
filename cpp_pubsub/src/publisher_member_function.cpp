@@ -35,6 +35,10 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 
+#include "geometry_msgs/msg/transform_stamped.hpp"
+#include "tf2/LinearMath/Quaternion.h"
+#include "tf2_ros/static_transform_broadcaster.h"
+
 using namespace std::chrono_literals;
 
 class MinimalPublisher : public rclcpp::Node {
@@ -48,7 +52,7 @@ class MinimalPublisher : public rclcpp::Node {
    */
   MinimalPublisher() : Node("minimal_publisher"), count_(0) {
     try {
-      publisher_ = this->create_publisher<std_msgs::msg::String>("topic", 10);
+      publisher_ = this->create_publisher<std_msgs::msg::String>("chatter", 10);
 
       // Declare and get parameter
       auto param_desc = rcl_interfaces::msg::ParameterDescriptor{};
@@ -76,6 +80,12 @@ class MinimalPublisher : public rclcpp::Node {
           std::bind(&MinimalPublisher::updateMessage, this,
                     std::placeholders::_1, std::placeholders::_2));
       RCLCPP_DEBUG_STREAM(this->get_logger(), "Initialize the Server");
+
+      // publishing static transforms
+      tf_static_broadcaster_ =
+          std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
+      this->make_transforms(transformations);
+
     } catch (...) {
       RCLCPP_ERROR_STREAM(this->get_logger(),
                           "Error encountered at time of initialization!!");
@@ -114,16 +124,56 @@ class MinimalPublisher : public rclcpp::Node {
     publisher_->publish(message);
   }
 
+  void make_transforms(char* transformation[]) {
+    geometry_msgs::msg::TransformStamped t;
+
+    t.header.stamp = this->get_clock()->now();
+    t.header.frame_id = "world";
+    t.child_frame_id = transformation[1];
+
+    t.transform.translation.x = atof(transformation[2]);
+    t.transform.translation.y = atof(transformation[3]);
+    t.transform.translation.z = atof(transformation[4]);
+    tf2::Quaternion q;
+    q.setRPY(atof(transformation[5]), atof(transformation[6]),
+             atof(transformation[7]));
+    t.transform.rotation.x = q.x();
+    t.transform.rotation.y = q.y();
+    t.transform.rotation.z = q.z();
+    t.transform.rotation.w = q.w();
+
+    tf_static_broadcaster_->sendTransform(t);
+  }
+
   rclcpp::TimerBase::SharedPtr timer_;
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
   rclcpp::Service<cpp_pubsub::srv::UpdateMessage>::SharedPtr server_;
   std::string server_response_message = "I am ROS2 Service";
+  std::shared_ptr<tf2_ros::StaticTransformBroadcaster> tf_static_broadcaster_;
   size_t count_;
 };
 
 int main(int argc, char* argv[]) {
+
+  // obtaining parameters from command line
+  if (argc < 8) {
+    RCLCPP_WARN(rclcpp::get_logger("rclcpp"),
+                "Invalid number of parameters\nusage: "
+                "$ ros2 run beginner_tutorials talker "
+                "child_frame_name x y z roll pitch yaw %d",
+                argc);
+    return 1;
+  }
+
+  // check for frame of transform other than world
+  if (strcmp(argv[1], "world") == 0) {
+    RCLCPP_WARN(rclcpp::get_logger("rclcpp"),
+                "static name cannot be world");
+    return 1;
+  }
+
   rclcpp::init(argc, argv);
-  auto node = std::make_shared<MinimalPublisher>();
+  auto node = std::make_shared<MinimalPublisher>(argv);
   rclcpp::spin(node);
   rclcpp::shutdown();
   return 0;
