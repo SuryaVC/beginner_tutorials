@@ -1,3 +1,5 @@
+// Copyright (c) 2023 Suryavardhan Reddy Chappidi
+
 /**
  * @file service_client.cpp
  * @author Suryavardhan Reddy Chappidi (chappidi@umd.edu)
@@ -9,7 +11,7 @@
  * @version 0.1
  * @date 2023-11-13
  *
- * @copyright Copyright (c) 2023
+ * @copyright Copyright (c) 2023 
  *
  */
 

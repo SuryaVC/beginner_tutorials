@@ -32,10 +32,9 @@
 #include <string>
 
 #include "cpp_pubsub/srv/update_message.hpp"
+#include "geometry_msgs/msg/transform_stamped.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
-
-#include "geometry_msgs/msg/transform_stamped.hpp"
 #include "tf2/LinearMath/Quaternion.h"
 #include "tf2_ros/static_transform_broadcaster.h"
 
@@ -50,7 +49,8 @@ class MinimalPublisher : public rclcpp::Node {
    * parameter, and sets up a timer for the callback. Also, initializes a
    * service for updating messages.
    */
-  explicit MinimalPublisher(char* transformations[]) : Node("minimal_publisher") {
+  explicit MinimalPublisher(char* transformations[])
+      : Node("minimal_publisher") {
     try {
       publisher_ = this->create_publisher<std_msgs::msg::String>("chatter", 10);
 
@@ -85,7 +85,6 @@ class MinimalPublisher : public rclcpp::Node {
       tf_static_broadcaster_ =
           std::make_shared<tf2_ros::StaticTransformBroadcaster>(this);
       this->make_transforms(transformations);
-
     } catch (...) {
       RCLCPP_ERROR_STREAM(this->get_logger(),
                           "Error encountered at time of initialization!!");
@@ -124,6 +123,22 @@ class MinimalPublisher : public rclcpp::Node {
     publisher_->publish(message);
   }
 
+  /**
+   * @brief Creates and publishes a static transform based on provided
+   * parameters.
+   *
+   * @details This function constructs a geometry_msgs::msg::TransformStamped
+   * message using the given transformation parameters. It then broadcasts this
+   * transform using a TF2 static transform broadcaster. The transform includes
+   * translation and rotation components specified in the transformation array.
+   *
+   * @param transformation An array of character strings where:
+   *                       - transformation[1] specifies the child frame ID,
+   *                       - transformation[2], [3], [4] specify the x, y, z
+   * translation components,
+   *                       - transformation[5], [6], [7] specify the roll,
+   * pitch, yaw rotation components.
+   */
   void make_transforms(char* transformation[]) {
     geometry_msgs::msg::TransformStamped t;
 
@@ -138,7 +153,7 @@ class MinimalPublisher : public rclcpp::Node {
     tf2::Quaternion q;
     q.setRPY(atof(transformation[5]), atof(transformation[6]),
              atof(transformation[7]));
-             
+
     t.transform.rotation.x = q.x();
     t.transform.rotation.y = q.y();
     t.transform.rotation.z = q.z();
@@ -156,7 +171,6 @@ class MinimalPublisher : public rclcpp::Node {
 };
 
 int main(int argc, char* argv[]) {
-
   // obtaining parameters from command line
   if (argc < 8) {
     RCLCPP_WARN(rclcpp::get_logger("rclcpp"),
@@ -169,8 +183,7 @@ int main(int argc, char* argv[]) {
 
   // check for frame of transform other than world
   if (strcmp(argv[1], "world") == 0) {
-    RCLCPP_WARN(rclcpp::get_logger("rclcpp"),
-                "static name cannot be world");
+    RCLCPP_WARN(rclcpp::get_logger("rclcpp"), "static name cannot be world");
     return 1;
   }
 
