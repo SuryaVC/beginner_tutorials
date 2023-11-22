@@ -42,7 +42,7 @@ def generate_launch_description():
                 ])
             ),
             cmd=[[
-                'ros2 bag record -o bag_output ',
+                'ros2 bag record -o results/bag_output ',
                 '/chatter ',
                 '/service_node',
             ]],
