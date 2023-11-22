@@ -50,7 +50,7 @@ class MinimalPublisher : public rclcpp::Node {
    * parameter, and sets up a timer for the callback. Also, initializes a
    * service for updating messages.
    */
-  MinimalPublisher() : Node("minimal_publisher"), count_(0) {
+  explicit MinimalPublisher(char* transformations[]) : Node("minimal_publisher") {
     try {
       publisher_ = this->create_publisher<std_msgs::msg::String>("chatter", 10);
 
@@ -134,9 +134,11 @@ class MinimalPublisher : public rclcpp::Node {
     t.transform.translation.x = atof(transformation[2]);
     t.transform.translation.y = atof(transformation[3]);
     t.transform.translation.z = atof(transformation[4]);
+
     tf2::Quaternion q;
     q.setRPY(atof(transformation[5]), atof(transformation[6]),
              atof(transformation[7]));
+             
     t.transform.rotation.x = q.x();
     t.transform.rotation.y = q.y();
     t.transform.rotation.z = q.z();
