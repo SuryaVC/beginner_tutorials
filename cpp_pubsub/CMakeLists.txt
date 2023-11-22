@@ -19,7 +19,7 @@ find_package(geometry_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 
-rosidl_default_interfaces(${PROJECT_NAME}
+rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/UpdateMessage.srv"
 )
 
